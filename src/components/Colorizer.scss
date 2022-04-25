@@ -1,0 +1,194 @@
+$imageWidth: 2400px;
+$imageHeight: 1482px;
+$between-border-px: 6px;
+$between-border-color: #767492;
+
+@mixin border-overlay ($size, $color, $top, $right, $bottom, $left, $opacity: 0.75) {
+  opacity:$opacity;
+  content: "";
+  position: absolute;
+  pointer-events: none;
+  z-index: 1;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  @if $left {
+    left: -$size*0.5;
+    border-left: $size solid $color;
+  }
+  @if $right {
+    right: -$size*0.5;
+    border-right: $size solid $color;
+  }
+  @if $top {
+    top: -$size*0.5;
+    border-top: $size solid $color;
+  }
+  @if $bottom {
+    bottom: -$size*0.5;
+    border-bottom: $size solid $color;
+  }
+}
+
+.ColorizerStack {
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  .stack {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
+  &.multi {
+    &:nth-child(1)::before {
+      @include border-overlay($between-border-px, $between-border-color, false, true, true, false, 1);
+    }
+
+    &:nth-child(2)::before {
+      @include border-overlay($between-border-px, $between-border-color, false, false, true, true, 1);
+    }
+
+    &:nth-child(3)::before {
+      @include border-overlay($between-border-px, $between-border-color, true, true, false, false, 1);
+    }
+
+    &:nth-child(4)::before {
+      @include border-overlay($between-border-px, $between-border-color, true, false, false, true, 1);
+    }
+  }
+
+  .title {
+    position: absolute;
+    background: rgba(5, 0, 56, 0.4);
+    font-weight: bold;
+    color: white;
+    text-transform: uppercase;
+    z-index: 1;
+    font-size: 5em;
+    cursor: pointer;
+    //margin: 3px;
+    padding: 0.65em;
+  }
+
+  &:nth-of-type(1) {
+    .title {
+      bottom: 0;
+      right: 0;
+    }
+  }
+
+  &:nth-of-type(2) {
+    .title {
+      bottom: 0;
+      left: 0;
+    }
+  }
+
+  &:nth-of-type(3) {
+    .title {
+      top: 0;
+      right: 0;
+    }
+  }
+
+  &:nth-of-type(4) {
+    .title {
+      top: 0;
+      left: 0;
+    }
+  }
+
+  svg { //TEMP
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
+  canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
+  img {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+}
+
+.ImageStack {
+  img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    will-change: transform;
+  }
+}
+
+.stage {
+  //border: 1px solid blue;
+  //background: antiquewhite;
+  width: $imageWidth * 2;
+  height: $imageHeight * 2;
+}
+
+.stage-window {
+  width: 800px;
+  height: 800px;
+  border: 1px solid #ce19cc;
+  background: #acece4;
+}
+
+.CanvasStack {
+  z-index: 0;
+}
+
+.ColorizerStage {
+  .stage-wrapper {
+    position: fixed;
+    background: #F2F5FA;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    //right: 0;
+    //bottom: 0;
+  }
+
+  //.stage-wrapper {
+  //  border: 1px solid green;
+  //  width: 1000px;
+  //  height: 1000px;
+  //}
+
+  //TEMP buttons=================
+  .temp-buttons {
+    position: fixed;
+    bottom: 30px;
+    left: 0;
+    z-index: 2;
+  }
+
+  .tools {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    z-index: 2;
+  }
+
+  //===============================
+}
+
+.zoom-to-extra {
+  position: absolute;
+  pointer-events:none;
+
+  top: 0;
+  left: 0;
+  width: 100px;
+  height: 100px;
+}
