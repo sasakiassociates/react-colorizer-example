@@ -18,7 +18,8 @@ export const ObserverComp = observer(({}: ObserverCompProps) => {
 
     return <div className={'ObserverComp'}>
         {/*<div>{changer.current.levelsLayer.counter}</div>*/}
-        <button onClick={() => changer.current.changeSomething()}>CHANGE</button>
+        <button onClick={() => changer.current.changeSomething(1)}>up</button>
+        <button onClick={() => changer.current.changeSomething(-1)}>dn</button>
         <div> counter : {changer.current.levelsLayer.counter}</div>
         <div> keys : {keyz.join(';')}</div>
         {changer.current.colorizerLayers.map((layer) => {

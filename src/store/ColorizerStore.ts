@@ -7,9 +7,19 @@ import Asset_Colorizer_Helicoid_Graphic from '../assets/helicoid/keyPNG.png';
 import Asset_Colorizer_Helicoid_Key from '../assets/helicoid/projectLookup.json';
 
 import Asset_Colorizer_Levels_Base_Image from '../assets/levels/ViewCapture20220406_152102.jpg';
+// import Asset_Colorizer_Levels_Data from '../assets/simple/dataPNG.png';
+// import Asset_Colorizer_Levels_Graphic from '../assets/simple/keyPNG.png';
+// import Asset_Colorizer_Levels_Key from '../assets/simple/projectLookup.json';
+// const Asset_Colorizer_Levels_DataWidth = 26;
+
 import Asset_Colorizer_Levels_Data from '../assets/levels/dataPNG.png';
 import Asset_Colorizer_Levels_Graphic from '../assets/levels/keyPNG.png';
-import Asset_Colorizer_Levels_Key from '../assets/levels/projectLookup.json';
+import Asset_Colorizer_Levels_Key_Lookup from '../assets/levels/projectLookup.json';
+// const Asset_Colorizer_Levels_DataWidth = 224;
+
+// import Asset_Colorizer_Levels_Data from '../assets/node-levels/data.png';
+// import Asset_Colorizer_Levels_Graphic from '../assets/node-levels/output.png';
+// import Asset_Colorizer_Levels_Key from '../assets/node-levels/data.png-keyIndex.json';
 
 import Asset_Colorizer_Building_Base_Image from '../assets/building/Existing_Base.jpg';
 import Asset_Colorizer_Building_Data from '../assets/building/data.png';
@@ -18,15 +28,19 @@ import Asset_Colorizer_Building_Key from '../assets/building/data.png-keyIndex.j
 
 import { ColorizerLayer, ImageLayer } from "./Layers";
 
+const Asset_Colorizer_Levels_DataWidth = 512;
+
+const Asset_Colorizer_Levels_Key = Asset_Colorizer_Levels_Key_Lookup.orderedData;
+
 export default class ColorizerStore {
     constructor() {
         makeObservable(this);
     }
 
     @action
-    changeSomething() {
-        this.levelsLayer.increment();
-        this.buildingLayer.increment();
+    changeSomething(val:number) {
+        this.levelsLayer.increment(val);
+        this.buildingLayer.increment(val);
     }
 
     @computed
@@ -36,7 +50,7 @@ export default class ColorizerStore {
         return new LevelsColorizerLayer(width, height,
             Asset_Colorizer_Levels_Graphic,
             Asset_Colorizer_Levels_Data,
-            Asset_Colorizer_Levels_Key.orderedData,
+            Asset_Colorizer_Levels_Key,
         )
     }
 
@@ -64,7 +78,7 @@ export default class ColorizerStore {
             //     Asset_Colorizer_Helicoid_Key.orderedData,
             // ),
             this.levelsLayer,
-            this.buildingLayer,
+            // this.buildingLayer,
         ];
     }
 }
@@ -113,8 +127,8 @@ export class LevelsColorizerLayer extends ColorizerLayer {
     counter = 0;
 
     @action
-    increment() {
-        this.counter = this.counter + 1;
+    increment(val= 1) {
+        this.counter = this.counter + val;
     }
 
     constructor(imageWidth: number, imageHeight: number, graphic: string, data: string, key: string[]) {
@@ -124,14 +138,19 @@ export class LevelsColorizerLayer extends ColorizerLayer {
 
     @override
     get dataWidth(): number {
-        return 224;
+        return Asset_Colorizer_Levels_DataWidth;
+    }
+
+    @override
+    get maxStackSize(): number {
+        return 11;
     }
 
     @override
     get colorizerStates(): Map<string, ColorizerState> {
         const states = new Map<string, ColorizerState>();
 
-        let data = Asset_Colorizer_Levels_Key.orderedData;
+        let data = Asset_Colorizer_Levels_Key;
         console.log('LEVEL colorizerStates', this.counter);
         for (let i = this.counter; i < data.length; i++) {
             // if (i !== 3) continue;
@@ -139,10 +158,10 @@ export class LevelsColorizerLayer extends ColorizerLayer {
             const id = data[i];
             const color = colors[i % colors.length];
             let customColorizerState = new CustomColorizerState(color);
-            customColorizerState.fillAlpha = 1;//TEMP 0.5 + 0.5 * (i / data.length);
-            customColorizerState.strokeColor = (i % 2 === 0) ? '#ff0000' : '#0000ff';
-            customColorizerState.strokeAlpha = 0.75;
-            customColorizerState.pattern = Pattern.LightenBackward;
+            customColorizerState.fillAlpha = 0.5 + 0.5 * (i / data.length);
+            customColorizerState.strokeColor = '#000000';//(i % 2 === 0) ? '#ff0000' : '#0000ff';
+            customColorizerState.strokeAlpha = 1;
+            customColorizerState.pattern = Pattern.None;
             customColorizerState.patternMin = 0;
             customColorizerState.patternMax = 1;
 
@@ -158,8 +177,8 @@ export class BuildingColorizerLayer extends ColorizerLayer {
     counter = 0;
 
     @action
-    increment() {
-        this.counter = this.counter + 1;
+    increment(val = 1) {
+        this.counter = this.counter + val;
     }
 
     constructor(imageWidth: number, imageHeight: number, graphic: string, data: string, key: string[]) {
@@ -181,10 +200,10 @@ export class BuildingColorizerLayer extends ColorizerLayer {
             const id = data[i];
             const color = colors[i % colors.length];
             let customColorizerState = new CustomColorizerState(color);
-            customColorizerState.fillAlpha = 1;//TEMP 0.5 + 0.5 * (i / data.length);
-            customColorizerState.strokeColor = (i % 2 === 0) ? '#ff0000' : '#0000ff';
+            customColorizerState.fillAlpha =  0.5 + 0.5 * (data.length-i) / data.length;
+            customColorizerState.strokeColor = '#333333';// (i % 2 === 0) ? '#ff0000' : '#0000ff';
             customColorizerState.strokeAlpha = 0.75;
-            customColorizerState.pattern = Pattern.Paisley;
+            customColorizerState.pattern = Pattern.LightenBackward;
             customColorizerState.patternMin = 0.8;
             customColorizerState.patternMax = 1;
 

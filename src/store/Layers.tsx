@@ -39,6 +39,11 @@ export class ColorStateLayer implements IColorizerLayer {
         return 512;
     }
 
+    @computed
+    get maxStackSize(): number {
+        return 8;
+    }
+
     get element(): ReactNode {
         return null;
     }
@@ -67,6 +72,7 @@ export class ColorizerLayer extends ColorStateLayer implements IColorizerDataLay
             colorizerStates={this.colorizerStates}
             canvasId={'colorizer'}
             dataWidth={this.dataWidth}
+            maxStackSize={this.maxStackSize}
             paths={this.paths}
             width={this.imageWidth}
             height={this.imageHeight}
