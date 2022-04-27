@@ -1,5 +1,5 @@
 import { action, computed, makeObservable, observable, override } from "mobx";
-import { ColorizerState, IColorizerLayer, Pattern } from "@strategies/react-colorizer";
+import { ColorizerState, BasicColorizerState, Pattern } from "@strategies/react-colorizer";
 
 import Asset_Colorizer_Helicoid_Base_Image from '../assets/helicoid/dataPNG.png';
 import Asset_Colorizer_Helicoid_Data from '../assets/helicoid/dataPNG.png';
@@ -12,9 +12,12 @@ import Asset_Colorizer_Levels_Base_Image from '../assets/levels/ViewCapture20220
 // import Asset_Colorizer_Levels_Key from '../assets/simple/projectLookup.json';
 // const Asset_Colorizer_Levels_DataWidth = 26;
 
-import Asset_Colorizer_Levels_Data from '../assets/levels/dataPNG.png';
-import Asset_Colorizer_Levels_Graphic from '../assets/levels/keyPNG.png';
-import Asset_Colorizer_Levels_Key_Lookup from '../assets/levels/projectLookup.json';
+// import Asset_Colorizer_Levels_Data from '../assets/levels/dataPNG.png';
+// import Asset_Colorizer_Levels_Graphic from '../assets/levels/keyPNG.png';
+// import Asset_Colorizer_Levels_Key_Lookup from '../assets/levels/projectLookup.json';
+import Asset_Colorizer_Levels_Data from '../assets/bpy/dataPNG.png';
+import Asset_Colorizer_Levels_Graphic from '../assets/bpy/keyPNG.png';
+import Asset_Colorizer_Levels_Key_Lookup from '../assets/bpy/projectLookup.json';
 // const Asset_Colorizer_Levels_DataWidth = 224;
 
 // import Asset_Colorizer_Levels_Data from '../assets/node-levels/data.png';
@@ -30,7 +33,15 @@ import { ColorizerLayer, ImageLayer } from "./Layers";
 
 const Asset_Colorizer_Levels_DataWidth = 512;
 
-const Asset_Colorizer_Levels_Key = Asset_Colorizer_Levels_Key_Lookup.orderedData;
+// const Asset_Colorizer_Levels_Key = Asset_Colorizer_Levels_Key_Lookup.orderedData;
+const Asset_Colorizer_Levels_Key:string[] = [//TODO READ FROM NEW FILE FORMAT
+    "8d8ef6e8-2708-40f9-9f90-5c0fbb0de2c3",
+    "10060db6-3d55-4836-8c39-97c4e09c5e3d",
+    "e0fe9484-1755-4ffb-a7c2-3450bb3bfbec",
+    "47290d4e-5f4b-438c-a3dc-916fa094070d",
+    "554dbc9f-ff97-45cd-9d62-6c2f1883c21f",
+    "9a879d01-ba43-4935-bad8-216355b74a83"
+];
 
 export default class ColorizerStore {
     constructor() {
@@ -83,20 +94,6 @@ export default class ColorizerStore {
     }
 }
 
-export class CustomColorizerState implements ColorizerState {
-    fillColor = '#ffffff';
-    fillAlpha = 1;
-    strokeColor = '#000000';
-    strokeAlpha = 1;
-    pattern?: Pattern;
-    patternMin?: number;//min lightness at which to show the pattern
-    patternMax?: number;//max lightness at which to show the pattern
-
-    constructor(fillColor: string) {
-        this.fillColor = fillColor;
-
-    }
-}
 
 export class HelicoidColorizerLayer extends ColorizerLayer {
     constructor(imageWidth: number, imageHeight: number, graphic: string, data: string, key: string[]) {
@@ -107,8 +104,8 @@ export class HelicoidColorizerLayer extends ColorizerLayer {
     @override
     get colorizerStates(): Map<string, ColorizerState> {
         const states = new Map<string, ColorizerState>();
-        states.set('helicoid 1', new CustomColorizerState('#421c8d'))
-        states.set('helicoid 2', new CustomColorizerState('#09595e'))
+        states.set('helicoid 1', new BasicColorizerState('#421c8d'))
+        states.set('helicoid 2', new BasicColorizerState('#09595e'))
         return states;
     }
 
@@ -157,7 +154,7 @@ export class LevelsColorizerLayer extends ColorizerLayer {
 
             const id = data[i];
             const color = colors[i % colors.length];
-            let customColorizerState = new CustomColorizerState(color);
+            let customColorizerState = new BasicColorizerState(color);
             customColorizerState.fillAlpha = 0.5 + 0.5 * (i / data.length);
             customColorizerState.strokeColor = '#000000';//(i % 2 === 0) ? '#ff0000' : '#0000ff';
             customColorizerState.strokeAlpha = 1;
@@ -199,7 +196,7 @@ export class BuildingColorizerLayer extends ColorizerLayer {
         for (let i = 0; i < data.length - this.counter; i++) {
             const id = data[i];
             const color = colors[i % colors.length];
-            let customColorizerState = new CustomColorizerState(color);
+            let customColorizerState = new BasicColorizerState(color);
             customColorizerState.fillAlpha =  0.5 + 0.5 * (data.length-i) / data.length;
             customColorizerState.strokeColor = '#333333';// (i % 2 === 0) ? '#ff0000' : '#0000ff';
             customColorizerState.strokeAlpha = 0.75;
