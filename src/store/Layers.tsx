@@ -76,6 +76,7 @@ export class ColorizerLayer extends ColorStateLayer implements IColorizerDataLay
             paths={this.paths}
             width={this.imageWidth}
             height={this.imageHeight}
+            emitProjectClick={(id)=>alert(id)}
         />
     }
 }
