@@ -1,8 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
+import './App.scss';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { register } from "@strategies/stores";
+import MainStore from "./store/MainStore";
+
+register({
+    main: new MainStore(),
+});
+
 
 ReactDOM.render(
   <React.StrictMode>

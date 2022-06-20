@@ -1,0 +1,15 @@
+.Swatch {
+  display: inline-block;
+  border-top: 1px solid gray;
+  background-color: red;
+  width: 12px;
+  height: 12px;
+}
+
+.SwatchPicker {
+  .picker-open {
+    position: absolute;
+    z-index: 3;
+  }
+}
+
