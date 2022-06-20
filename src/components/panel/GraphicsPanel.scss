@@ -1,0 +1,118 @@
+.GraphicsPanel {
+  background-color: white;
+  width: 400px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  overflow-y: auto;
+
+  .file-buttons {
+    position: sticky;
+    top: 5px;
+  }
+
+  .hover-info {
+    position: fixed;
+    top: 5px;
+    right: 18px;
+  }
+
+  .GraphicsItem {
+    .title {
+      display: inline-block;
+      cursor: pointer;
+    }
+
+    border: 1px solid #cccccc;
+    border-radius: 8px;
+    padding: 1em;
+
+    .BandItem {
+      background-color: #f5f5f5;
+      border: 1px solid #dadada;
+      border-radius: 4px;
+      padding: 0.5em;
+      font-size: 0.8em;
+
+      .band-name {
+        font-weight: bold;
+
+      }
+
+      .SwatchPicker {
+        display: inline-block;
+        margin: 0.25em;
+      }
+
+      .opacity {
+        display: inline-block;
+      }
+    }
+  }
+}
+
+.BufferItem {
+  //width: 500px;
+  $thumbSize: 16px;
+  $thumbBorder: 2px;
+  $totalHeight: 40px;
+  $trackHeight: 28px;
+
+  $darkBg: #111111;
+  $lightBg: #ffffff;
+
+  .track-label {
+    text-align: center;
+  }
+
+  .horizontal-slider {
+    width: 100%;
+    //max-width: 500px;
+    height: $totalHeight;
+    border: 1px solid grey;
+
+
+    .example-track-0 {
+      background-color: $darkBg;
+    }
+    .example-track-1 {
+      background-image: linear-gradient(to right, $darkBg , $lightBg);
+    }
+    .example-track-2 {
+      background-color: transparent;
+    }
+
+    .example-track {
+      top: ($totalHeight - $trackHeight) / 2;
+      height: $trackHeight;
+    }
+
+    .example-thumb {
+      top: ($totalHeight - $thumbSize) / 2;
+      width: $thumbSize;
+      height: $thumbSize;
+      line-height: $thumbSize - $thumbBorder * 2;
+    }
+  }
+
+  .example-thumb {
+    border-radius: $thumbSize / 2;
+    font-size: 0.9em;
+    text-align: center;
+    background-color: black;
+    color: white;
+    cursor: pointer;
+    border: $thumbBorder solid gray;
+    box-sizing: border-box;
+  }
+
+  .example-thumb.active {
+    background-color: grey;
+  }
+
+  .example-track {
+    position: relative;
+    background: $lightBg;
+  }
+}

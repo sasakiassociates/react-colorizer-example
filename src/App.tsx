@@ -1,14 +1,21 @@
+import { observer } from "mobx-react";
 import React from 'react';
-import logo from './logo.svg';
-import './App.scss';
-import { ObserverComp } from "./_fiddle/ObserverComp";
+import MainStore from "./store/MainStore";
+import { ObserverComp } from "./components/ObserverComp";
+import { GraphicsPanel } from "./components/panel/GraphicsPanel";
+import { useStores } from "@strategies/stores";
 
-function App() {
+export type AppProps = {}
+
+const App = () => {
+    const store = useStores().main as MainStore;
     return (
         <div className="App">
-            <ObserverComp/>
+            <ObserverComp colorizerStore={store.colorizerStore}/>
+            {store.graphicsModel && <GraphicsPanel graphicsModel={store.graphicsModel}/>}
+            {/*<ColorizerStage store={store} width={store.stageWidth} height={store.stageHeight}/>*/}
         </div>
     );
-}
+};
 
-export default App;
+export default observer(App);
