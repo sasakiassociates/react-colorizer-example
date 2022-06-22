@@ -45,8 +45,7 @@ export class ColorStateLayer implements IColorizerLayer {
 
     @computed
     get maxStackSize(): number {
-        //NOTE: this needs to be set to the max of max stacked objects or total number of blendable bands
-        return 11;
+        return 12;
     }
 
     get element(): ReactNode {
@@ -144,6 +143,13 @@ export class BandedColorizerLayer extends ColorStateLayer implements IColorizerD
     get colorizerStates(): Map<string, ColorizerState> {
         if (!this.mainStore.graphicsModel) return new Map<string, ColorizerState>();
         return this.mainStore.graphicsModel.colorizerStates;
+    }
+
+    @override
+    get maxStackSize(): number {
+        if (!this.paths) return 12;
+        //NOTE: this needs to be set to the max of max stacked objects or total number of blendable bands
+        return Math.max(this.metadata.maxKeyStack, this.paths.bands.length);
     }
 
     @computed
