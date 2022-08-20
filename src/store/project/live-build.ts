@@ -5,7 +5,7 @@ const Asset_Colorizer_Lightness_Image = './live-build/bands/Lightness.png';
 // const Asset_Colorizer_Rendered_Image = './live-build/bands/Rendered.png';
 const Asset_Colorizer_Shadows_Image = './live-build/bands/Shadows Only.png';
 const Asset_Colorizer_LineworkThin_Image = './live-build/bands/Linework (thin).png';
-const Asset_Colorizer_InsetOutset_Image = './live-build/bands/blurredEdge.png';
+// const Asset_Colorizer_InsetOutset_Image = './live-build/bands/blurredEdge.png';
 // import Asset_BackgroundImage from './live-build/background.jpg';
 
 const Asset_Colorizer_Data_Image = './live-build/keyStack.png';
@@ -19,13 +19,13 @@ const bandSettings = [
     // new BandSettings('Linework (thick)', Asset_Colorizer_LineworkThick_Image, BandType.Blackness, '#052179'),
     new BandSettings('Linework (thin)', Asset_Colorizer_LineworkThin_Image, BandType.Blackness, '#482409', 0.4),
     // new BandSettings('Outlines (thick) - above', Asset_Colorizer_OutlinesThick_Image, BandType.Blackness, '#052179'),
-    new BandSettings('Edges', Asset_Colorizer_InsetOutset_Image, BandType.InsetOutsetRB, '#000000', 0.8),
+    // new BandSettings('Edges', Asset_Colorizer_InsetOutset_Image, BandType.InsetOutsetRB, '#000000', 0.8),
     // new BandSettings('Depth', Asset_Colorizer_Depth_Image, BandType.Hidden),
 ];
 const highlightSettings: HighlightSetting[] = [
     { bandId: 'Color', color: '#ff11cf' },
     { bandId: 'Shadows', color: '#490052', opacity:1 },
-    { bandId: 'Edges', color: '#300134', opacity:1 },
+    // { bandId: 'Edges', color: '#300134', opacity:1 },
     { bandId: 'Linework (thin)', color: '#000000', opacity:1 }
 ]
 
