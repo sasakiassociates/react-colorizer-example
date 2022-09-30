@@ -179,7 +179,7 @@ export class BandedColorizerLayer extends ColorStateLayer implements IColorizerD
             paths={this.paths}
             width={this.effectiveWidth}
             height={this.effectiveHeight}
-            cropRect={this.effectiveCrop || undefined}
+            //cropRect={this.effectiveCrop || undefined}
             emitProjectClick={(hit) => {
                 console.log(hit);
                 this.mainStore.graphicsModel?.toggleId(hit && hit.id);

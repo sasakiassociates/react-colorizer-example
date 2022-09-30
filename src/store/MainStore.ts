@@ -124,7 +124,7 @@ export default class MainStore extends Store {
         makeObservable(this);
 
         this.colorizerStore = new ColorizerStore();
-        this.colorizerStore.loadMetadata().then(()=> {
+        this.colorizerStore.loadMetadata().then(() => {
             console.log('METADATA loaded');
             this.init(this.colorizerStore);
         });
@@ -136,13 +136,24 @@ export default class MainStore extends Store {
 
         objectIds.forEach((id, i) => {
             const graphicElement = new GraphicElement({ id });
+            if (id.startsWith('B1 - Easements')) graphicElement.setVisible(false);
+
             bandSettings.forEach((bandSetting, i) => {
+                let color = '';
+                if (i === 1) {
+                    if (id.indexOf('_RETAIL') > 0) color = '#be3b3b';
+                    if (id.indexOf('_RESI TOWER') > 0) color = '#e3b918';
+                    if (id.indexOf('_OFFICE TOWER') > 0) color = '#007ffa';
+                    if (id.indexOf('_LAB TOWER') > 0) color = '#c54ef1';
+                    if (id.indexOf('_AMENITY') > 0) color = '#37bba4';
+                    if (id.indexOf('_RESI PARKING') > 0) color = '#608693';
+                }
                 if (bandSetting.type === BandType.Hidden) return;
                 if (bandSetting.type === BandType.InsetOutsetRB) {
                     graphicElement.addBandOption(new BufferBandOptions({
                         bandId: bandSetting.name,
                         // color: randomColor()
-                        color: bandSetting.defaultColor,
+                        color: color || bandSetting.defaultColor,
                         opacity: bandSetting.defaultOpacity,
                         inset: new BufferOptions({ buffer: 0.02, falloff: 0.01 }),
                         outset: new BufferOptions({ buffer: 0.02, falloff: 0.01 }),
@@ -151,7 +162,7 @@ export default class MainStore extends Store {
                     graphicElement.addBandOption(new BandOptions({
                         bandId: bandSetting.name,
                         // color: randomColor(),
-                        color: bandSetting.defaultColor,
+                        color: color || bandSetting.defaultColor,
                         opacity: bandSetting.defaultOpacity
                     }));
                 }
